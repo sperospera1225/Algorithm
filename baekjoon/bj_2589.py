@@ -1,6 +1,6 @@
 from collections import deque
 
-# define 4 directions to move 
+# define 4 directions to move
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 

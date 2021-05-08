@@ -14,7 +14,7 @@ def dfs(x, y):
         dfs(x-1,y-1)
         return True
     return False
-
+ 
 while (True):
         w, h = map(int, input().split())
         if w == 0 and h == 0:
