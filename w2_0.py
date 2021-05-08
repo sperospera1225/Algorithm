@@ -12,3 +12,4 @@ if __name__=='__main__':
     s = "Hello how are you Contestant"
     k = 4
     print(truncate_sentence(s, k))
+
