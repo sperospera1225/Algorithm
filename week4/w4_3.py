@@ -1,12 +1,17 @@
-def solution(N, stages):
-    answer = []
-    for i in range(len(stages)):
-        cnt = 0
-        for item in stages:
-            if item <= i+1:
-                cnt += 1
-        answer[i] = cnt/len(stages)
-    return answer
+# 3. https://programmers.co.kr/learn/courses/30/lessons/42888
 
-if __name__ == '__main__':
-    solution(5, [2,1,2,6,2,4,3,3])
+def solution(record):
+    answer = []
+    dictionary = {}
+
+    for item in record:
+        action1 = item.split()
+        if action1[0] == 'Enter' or 'Change':
+            dictionary[action1[1]] == action1[2]
+    for item in record:
+        action1 = item.split()
+        if action1[0] == 'Enter':
+            answer.append("{}님이 들어왔습니다.".format(dictionary[action1[1]]))
+        elif action1[0] == 'Change':
+            answer.append("{}님이 나갔습니다.".format(dictionary[action1[1]]))
+    return answer

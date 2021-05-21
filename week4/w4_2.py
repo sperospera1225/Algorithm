@@ -1,68 +1,79 @@
-#1 TOP
-n = int(input())
-top = list(map(int,input().split()))
+# 2. 스택 & 큐
+# 1) 스택 Min : 기본적인 push 기능과 pop 기능이 구현된 스택에서 최솟값을 반환하는 min 함수를 추가하려고 한다.
+# 어떻게 설계할 수 있겠는가? push, pop, min 연산은 모두 O(1) 시간에 동작해야 한다.
+class Stack():
+    stack = list()
+    def push(self, number):
+        self.stack.append(number)
+        # print(list[len(list)])
+    def pop(self):
+        self.stack.pop()
+    def min(self):
+        return min(self.stack)
+
+# 2) 스택으로 큐 : 스택 두 개로 큐 하나를 구현한 MyQueue 클래스를 구현하라.
+class MyQueue():
+    stack1 = list()
+    stack2 = list()
+
+    def inQueue(self, item):
+        self.stack1.append(item)
+    def outQueue(self):
+        if self.stack2:
+            while not self.stack1:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()
+
+# 3) 스택 정렬 : 가장 작은 값이 위로 오도록 스택을 정렬하는 프로그램을 작성하라. 추가적으로 하나 정도의 스택은 사용해도 괜찮지만, 스택에 보관된 요소를 배열 등의 다른 자료구조로 복사할 수는 없다. 스택은 push, pop, peek, isEmpty의 네 가지 연산을 제공해야 한다.
+
+# 4) https://www.acmicpc.net/problem/2504
+
+quotation = input().strip()
 stack = []
-result = []
-
-for i in range(n):
-    while stack:
-        if stack[-1][1] > top[i]:  # [-1][1] 이므로 stack 맨 끝쪽에서 1번째 배열에서 1번째 데이터를 top[i]와 비교
-            result.append(stack[-1][0] + 1)  # 배열은 0번째부터, 수신탑은 1번부터 시작하므로 수를 맞춰주고 result에 데이터 추가하기
-            break
-        stack.pop()  # 배열의 맨 끝 데이터 비우기
-
-    if not stack:
-        result.append(0)  # 스택이 비면 레이저를 수신한 탑이 없다는 뜻이므로 result에 "0" 데이터 추가
-
-    stack.append([i, top[i]])  # 스택에 현재 신호탑 데이터 추가
-
-for i in range(n):
-        print(result[i], end=' ')
-
-
-#2 MIN HEAP
-class minHeap:
-    def __init__(self):
-        self.queue = [None]
-
-    def swap(self, x, y):
-        self.queue[x], self.queue[y] = self.queue[y], self.queue[x]
-
-    def insert(self, n):
-        self.queue.append(n)
-        i = len(self.queue) - 1
-        while i>1:
-            parent = i // 2
-            if self.queue[i] < self.queue[parent]:
-                self.swap(i, parent)
-                i = parent
-            else: break
-    def delete(self):
-        if len(self.queue) > 1:
-            self.swap(1, len(self.queue)-1)
-            ans = self.queue.pop(len(self.queue)-1)
-            self.minHeapify(1)
-        else: ans = 0
-        return ans
-    def minHeapify(self, i):
-        left = i*2
-        right = i*2 + 1
-        smallest = i
-
-        if left <= len(self.queue)-1 and self.queue[left] < self.queue[smallest]:
-            smallest = left
-        if right <= len(self.queue)-1 and self.queue[left] < self.queue[smallest]:
-            smallest = right
-        if smallest != i:
-            self.swap(i, smallest)
-            self.minHeapify(smallest)
-
-if __name__ == '__main__':
-    num = int(input())
-    heap = minHeap()
-    for i in range(num):
-        x = int(input())
-        if x == 0:
-            print(heap.delete())
+def calculation(quotation):
+    stack = []
+    for s in calculation():
+        if s == '(' or s == '[':
+            stack.append(s)
+        elif s == ')':
+            if stack[-1] == '(':
+                stack[-1] = 2
+            else:
+                temp = 0
+                for i in range(len(stack) - 1, -1, -1):
+                    if stack[i] == '(':
+                        stack[-1] = temp * 2
+                        break
+                    else:
+                        temp += stack[i]
+                        stack = stack[:-1]
+        elif s == ']':
+            if stack[-1] == '[':
+                stack[-1] = 3
+            else:
+                temp = 0
+                for i in range(len(stack) - 1, -1, -1):
+                    if stack[i] == '[':
+                        stack[-1] = temp * 3
+                        break
+                    else:
+                        temp += stack[i]
+                        stack = stack[:-1]
         else:
-            heap.insert(x)
+            return 0
+    return sum(stack)
+# 5) https://www.acmicpc.net/problem/10799
+pipe = list(input())
+result = 0
+stack = []
+
+for i in range(len(pipe)):
+    if pipe[i] == '(':
+        stack.append('(')
+    else:
+        if pipe[i - 1] == '(':
+            stack.pop()
+            result += len(stack)
+        else:
+            stack.pop()
+            result += 1

@@ -1,5 +1,5 @@
 class Solution:
-    def maxAscendingSum(self, nums: List[int]) -> int:
+    def maxAscendingSum(self, nums) -> int:
         temp = 0
         count = 0
         sum_list = list()
